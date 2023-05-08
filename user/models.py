@@ -1,5 +1,7 @@
 from django.db import models
-
+from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import PermissionsMixin
+from django.contrib.auth.models import BaseUserManager
 
 class UserManager(BaseUserManager):
     """Manager that helps to create user with validated credentials and hashed password"""
