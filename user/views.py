@@ -24,3 +24,12 @@ class LoginView(View):
             else:
                 return HttpResponse('Неправильні пароль або ім\'я користувача', status=401)
         return render(request, 'user/login.html', {'form': form})
+
+
+class HomePageView(LoginRequiredMixin,View):
+    """Handles logic of home page view"""
+
+    def get(self, request):
+        """Handles GET requests"""
+        return render(request, 'user/home.html')
+
