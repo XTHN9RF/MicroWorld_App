@@ -20,7 +20,7 @@ class LoginView(View):
             user = authenticate(request, username=data['username'], password=data['password'])
             if user is not None:
                 login(request, user)
-                return HttpResponse('Logged in sucessfullyy', status=200)
+                return HttpResponse('Ви успішно увійшли до системи', status=200)
             else:
-                return HttpResponse('Invalid username or password', status=401)
+                return HttpResponse('Неправильні пароль або ім\'я користувача', status=401)
         return render(request, 'user/login.html', {'form': form})
