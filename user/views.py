@@ -9,8 +9,9 @@ from django.http import HttpResponse
 from .forms import LoginForm
 from .forms import RegisterForm
 from .forms import UserUpdateForm
+from .forms import AvatarUpdateForm
 
-from . models import UserProfile
+from . models import UserProfile, User
 
 class LoginView(View):
     """Handles login functionallity for users"""
@@ -39,7 +40,7 @@ class HomePageView(LoginRequiredMixin, View):
 
     def get(self, request):
         """Handles GET requests"""
-        return render(request, 'user/home.html')
+        return render(request, 'user/index.html')
 
 
 class RegisterView(View):
@@ -65,21 +66,20 @@ class RegisterView(View):
 class UserUpdateView(LoginRequiredMixin, View):
     """Handles logic of user update view"""
     form = UserUpdateForm
+    avatar_form = AvatarUpdateForm
 
     def get(self, request):
         """Handles GET requests"""
-        return render(request, 'user/update.html', {'form': self.form})
+        user_form = self.form(instance=request.user)
+        avatar_form = self.avatar_form(instance=request.user)
+        return render(request, 'user/update.html', {'user_form': user_form, 'avatar_form': avatar_form})
 
     def post(self, request):
         """Handles POST requests"""
-        form = self.form(request.POST, request.FILES)
-        if form.is_valid():
-            data = form.cleaned_data
-            user = request.user
-            user.name = data['name']
-            user.last_name = data['last_name']
-            if data['avatar']:
-                user.avatar = data['avatar']
-            user.save()
+        user_form = self.form(instance=request.user, data=request.POST)
+        avatar_form = self.avatar_form(instance=request.user, files=request.FILES)
+        if user_form.is_valid() and avatar_form.is_valid():
+            user_form.save()
+            avatar_form.save()
             return HttpResponse('Ви успішно оновили свій профіль', status=200)
-        return render(request, 'user/update.html', {'form': form})
+        return render(request, 'user/update.html', {'user_form': user_form, 'avatar_form': avatar_form})

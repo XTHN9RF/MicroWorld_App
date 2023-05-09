@@ -1,8 +1,10 @@
 {% extends 'user/base.html' %}
 {% block body %}
-    <form method="post">
+    <h1>Оновити дані</h1>
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ user_form.as_p }}
+        {{ avatar_form.as_p }}
         <input type="submit" value="Оновити дані"></input>
     </form>
 {% endblock %}
