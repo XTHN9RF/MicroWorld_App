@@ -25,3 +25,25 @@ class RegisterForm(forms.ModelForm):
         extra_kwargs = {
             'password': {'write_only': True,'read_only': False},
         }
+
+
+class UserUpdateForm(forms.ModelForm):
+    avatar = forms.ImageField(label='Avatar', required=False)
+    class Meta:
+        model = User
+        fields = ['name', 'last_name', 'avatar']
+        widgets = {
+            'name': forms.TextInput(),
+            'last_name': forms.TextInput(),
+            'avatar': forms.FileInput(),
+        }
+        labels = {
+            'name': 'First Name',
+            'last_name': 'Last Name',
+            'avatar': 'Avatar',
+        }
+        extra_kwargs = {
+            'name': {'required': False},
+            'last_name': {'required': False},
+            'avatar': {'required': False},
+        }
