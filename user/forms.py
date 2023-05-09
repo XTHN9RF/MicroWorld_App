@@ -1,5 +1,5 @@
 from django import forms
-
+from user.models import User
 
 class LoginForm(forms.Form):
     username = forms.EmailField(label='Email', widget=forms.EmailInput(), max_length=100)
@@ -9,17 +9,19 @@ class LoginForm(forms.Form):
 class RegisterForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'password']
+        fields = ['email', 'name', 'last_name', 'password']
         widgets = {
-            'username': forms.EmailInput(),
+            'email': forms.EmailInput(),
+            'name': forms.TextInput(),
+            'last_name': forms.TextInput(),
             'password': forms.PasswordInput(),
         }
         labels = {
-            'username': 'Email',
+            'email': 'Email',
             'password': 'Password',
-            'first_name': 'First Name',
+            'name': 'First Name',
             'last_name': 'Last Name',
         }
         extra_kwargs = {
-            'password': {'write_only': True,'read_only': True},
+            'password': {'write_only': True,'read_only': False},
         }
