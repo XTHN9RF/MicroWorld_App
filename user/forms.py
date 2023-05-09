@@ -1,5 +1,5 @@
 from django import forms
-from user.models import User
+from user.models import User, UserProfile
 
 class LoginForm(forms.Form):
     username = forms.EmailField(label='Email', widget=forms.EmailInput(), max_length=100)
@@ -28,22 +28,35 @@ class RegisterForm(forms.ModelForm):
 
 
 class UserUpdateForm(forms.ModelForm):
-    avatar = forms.ImageField(label='Avatar', required=False)
     class Meta:
         model = User
-        fields = ['name', 'last_name', 'avatar']
+        fields = ['email','name', 'last_name',]
         widgets = {
+            'email': forms.EmailInput(attrs={'readonly': True}),
             'name': forms.TextInput(),
             'last_name': forms.TextInput(),
-            'avatar': forms.FileInput(),
         }
         labels = {
             'name': 'First Name',
             'last_name': 'Last Name',
+        }
+        extra_kwargs = {
+            'email': {'required': False,},
+            'name': {'required': False},
+            'last_name': {'required': False},
+        }
+
+
+class AvatarUpdateForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['avatar']
+        widgets = {
+            'avatar': forms.FileInput(),
+        }
+        labels = {
             'avatar': 'Avatar',
         }
         extra_kwargs = {
-            'name': {'required': False},
-            'last_name': {'required': False},
-            'avatar': {'required': False},
+            'avatar': {'required': False,},
         }
