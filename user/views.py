@@ -8,7 +8,9 @@ from django.http import HttpResponse
 
 from .forms import LoginForm
 from .forms import RegisterForm
+from .forms import UserUpdateForm
 
+from . models import UserProfile
 
 class LoginView(View):
     """Handles login functionallity for users"""
@@ -55,5 +57,29 @@ class RegisterView(View):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
+            UserProfile.objects.create(user=user)
             return redirect('login/')
         return render(request, 'user/register.html', {'form': form})
+
+
+class UserUpdateView(LoginRequiredMixin, View):
+    """Handles logic of user update view"""
+    form = UserUpdateForm
+
+    def get(self, request):
+        """Handles GET requests"""
+        return render(request, 'user/update.html', {'form': self.form})
+
+    def post(self, request):
+        """Handles POST requests"""
+        form = self.form(request.POST, request.FILES)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = request.user
+            user.name = data['name']
+            user.last_name = data['last_name']
+            if data['avatar']:
+                user.avatar = data['avatar']
+            user.save()
+            return HttpResponse('Ви успішно оновили свій профіль', status=200)
+        return render(request, 'user/update.html', {'form': form})
