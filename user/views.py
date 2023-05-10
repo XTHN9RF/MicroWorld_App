@@ -11,7 +11,9 @@ from .forms import RegisterForm
 from .forms import UserUpdateForm
 from .forms import AvatarUpdateForm
 
-from . models import UserProfile, User
+from .models import UserProfile, User
+from posts.models import Post
+
 
 class LoginView(View):
     """Handles login functionallity for users"""
@@ -40,7 +42,9 @@ class HomePageView(LoginRequiredMixin, View):
 
     def get(self, request):
         """Handles GET requests"""
-        return render(request, 'user/index.html')
+        user = request.user
+        posts = Post.objects.filter(user=user)
+        return render(request, 'user/index.html', {'posts': posts})
 
 
 class RegisterView(View):
