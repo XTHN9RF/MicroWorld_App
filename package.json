@@ -1,0 +1,21 @@
+{
+  "name": "mw",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tailwind build user/static/user/css/tw.css -o user/static/user/css/styles.css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tailwind": "^4.0.0",
+    "tailwindcss": "^3.3.2"
+  },
+  "devDependencies": {
+    "postcss": "^8.4.23",
+    "postcss-cli": "^10.1.0"
+  }
+}
