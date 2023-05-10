@@ -1,4 +1,11 @@
 {% extends 'user/base.html' %}
+{% load static %}
 {% block body %}
-    <h1> Тест домашньої сторінки</h1>
+    <h1> Ваші пости</h1>
+    {% for post in posts %}
+        <h1> {{ post.title }} </h1>
+        <h1> {{ post.content }} </h1>
+        <img src="{{ post.image.url }}" alt="user post image">
+        <h1> {{ post.date_posted }} </h1>
+    {% endfor %}
 {% endblock %}
