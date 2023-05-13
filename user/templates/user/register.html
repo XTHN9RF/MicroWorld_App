@@ -1,8 +1,45 @@
 {% extends 'user/base.html' %}
+{% load static %}
 {% block body %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Зареєструватись"></input>
-    </form>
+    <section class="flex  h-screen">
+        <div class="flex flex-col justify-center items-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+            <div class="rounded-lg shadow border sm:max-w-md xl:p-0 bg-gray-700 border-gray-700"
+                 style="width: 500px; height: fit-content">
+                <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                    <h1 class="text-xl font-bold leading-tight tracking-tight md:text-2xl text-white">
+                        Створіть свій маленький світ
+                    </h1>
+                    <form class="space-y-4 md:space-y-6" action="" method="post">
+                        {% csrf_token %}
+                        <div>
+                            <label for="email" class="block mb-2 text-sm font-medium text-white">Ваш email</label>
+                                {{ form.email }}
+                        </div>
+                        <div>
+                            <label for="name" class="block mb-2 text-sm font-medium text-white">Вашe ім'я</label>
+                                {{ form.name }}
+                        </div>
+                        <div>
+                            <label for="last-name" class="block mb-2 text-sm font-medium text-white">Ваше прізвище</label>
+                                {{ form.last_name }}
+                        </div>
+                        <div>
+                            <label for="password" class="block mb-2 text-sm font-medium text-white">Пароль</label>
+                                {{ form.password }}
+                        </div>
+                        <input type="submit" value="Зарєєструватись"
+                                class="w-full text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-400 hover:bg-primary-700 focus:ring-primary-800">
+                        <p class="text-sm font-light text-gray-500 ">
+                            Вже маєте акаунт? <a href="{% url 'user:login' %}"
+                                                          class="font-medium text-primary-500 hover:underline ">Увійти</a>
+                        </p>
+                    </form>
+                    <div class="mt-2.5 flex justify-center items-center">
+                            <img src="{% static 'user/images/logo.png' %}" class="h-12 mr-3" alt="Site Logo"/>
+                            <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">MicroWorld</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

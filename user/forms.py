@@ -10,7 +10,7 @@ class LoginForm(forms.ModelForm):
             'password': forms.PasswordInput(attrs={'placeholder': '••••••••',
                                                    'class': 'bg-white border sm:text-sm rounded-lg block w-full p-2.5 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500',
                                                    'required': True}),
-            'email': forms.EmailInput(attrs={'placeholder': 'Email',
+            'email': forms.EmailInput(attrs={'placeholder': 'якийсьтекст@приклад.com',
                                              'class': 'bg-white border sm:text-sm rounded-lg block w-full p-2.5 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500',
                                              'required': True}),
         }
@@ -21,16 +21,18 @@ class RegisterForm(forms.ModelForm):
         model = User
         fields = ['email', 'name', 'last_name', 'password']
         widgets = {
-            'email': forms.EmailInput(),
-            'name': forms.TextInput(),
-            'last_name': forms.TextInput(),
-            'password': forms.PasswordInput(),
-        }
-        labels = {
-            'email': 'Email',
-            'password': 'Password',
-            'name': 'First Name',
-            'last_name': 'Last Name',
+            'email': forms.EmailInput(attrs={'placeholder': 'якийсьтекст@приклад.com',
+                                             'class': 'bg-white border sm:text-sm rounded-lg block w-full p-2.5 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500',
+                                             'required': True}),
+            'name': forms.TextInput(attrs={'placeholder': 'Введіть ваше ім\'я',
+                                           'class': 'bg-white border sm:text-sm rounded-lg block w-full p-2.5 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500',
+                                           'required': True}),
+            'last_name': forms.TextInput(attrs={'placeholder': 'Введіть ваше прізвище',
+                                                'class': 'bg-white border sm:text-sm rounded-lg block w-full p-2.5 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500',
+                                                'required': True}),
+            'password': forms.PasswordInput(attrs={'placeholder': '••••••••',
+                                                   'class': 'bg-white border sm:text-sm rounded-lg block w-full p-2.5 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500',
+                                                   'required': True}),
         }
         extra_kwargs = {
             'password': {'write_only': True, 'read_only': False},
