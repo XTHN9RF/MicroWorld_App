@@ -26,15 +26,14 @@ class LoginView(View):
     def post(self, request):
         """Handles GET requests"""
         form = self.form(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            user = authenticate(request, username=data['username'], password=data['password'])
-            if user is not None:
-                login(request, user)
-                return HttpResponse('Ви успішно увійшли до системи', status=200)
-            else:
-                return HttpResponse('Неправильні пароль або ім\'я користувача', status=401)
-        return render(request, 'user/login.html', {'form': form})
+        data = form.data
+        user = authenticate(request, username=data['email'], password=data['password'])
+        if user is not None:
+            login(request, user)
+            return redirect('user:home')
+        else:
+            return HttpResponse('Неправильні пароль або ім\'я користувача', status=401)
+        #return render(request, 'user/login.html', {'form': form})
 
 
 class HomePageView(LoginRequiredMixin, View):
@@ -63,7 +62,7 @@ class RegisterView(View):
             user.set_password(form.cleaned_data['password'])
             user.save()
             UserProfile.objects.create(user=user)
-            return redirect('login/')
+            return redirect('user:login')
         return render(request, 'user/register.html', {'form': form})
 
 
