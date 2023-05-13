@@ -1,11 +1,60 @@
 {% extends 'user/base.html' %}
 {% load static %}
 {% block body %}
-    <h1> Ваші пости</h1>
+    <h1 class="justify-start flex font-bold p-5 text-white text-3xl bg-gray-500" style="width: fit-content; border-radius: 50px; margin-top: 10px;"> Ваші пости</h1>
+
     {% for post in posts %}
-        <h1> {{ post.title }} </h1>
-        <h1> {{ post.content }} </h1>
-        <img src="{{ post.image.url }}" alt="user post image">
-        <h1> {{ post.date_posted }} </h1>
+        <div class="mb-10 flex justify-center items-center bg-white ">
+            <div class="bg-gray-700 text-white rounded-lg space-y-6"
+                 style="width: fit-content; max-width: 40%; height: fit-content; padding: 30px">
+                <!-- header -->
+                <div class="flex space-x-4 items-center ">
+                    <div class="w-12 h-12"
+                    >
+                        <img
+                                alt="avatar"
+                                src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+                                class="rounded-full w-full h-full object-cover ">
+                        <div>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex space-x-2 items-center">
+                            <h2 class="text-base"> John Doe </h2>
+                            <svg class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <div class="  text-xs text-slate-400">Публікує</div>
+                        </div>
+                        <p class=" text-xs text-slate-400">{{ post.date_posted }}</p>
+                    </div>
+
+                </div>
+                <!--content-->
+                <div>
+                    <p>
+                        <img class="max-w-2xl" src="{{ post.image.url }}">
+                    </p>
+                    <p class="text-sm leading-6 text-slate-300 break-words mt-10 p-1"> {{ post.content }} </p>
+                </div>
+
+                <!-- comments-->
+
+                <div class="flex justify-between pt-5">
+
+                    <svg class="h-4 w-4 text-red-500" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+                    </svg>
+
+                    <div class="text-slate-400 text-sm"><p>23 Коментарів</p></div>
+
+                </div>
+            </div>
+
+        </div>
     {% endfor %}
 {% endblock %}
