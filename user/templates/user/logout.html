@@ -4,3 +4,8 @@
 </h2>
 <h1> Дякуємо за те,що проводите свій час з нами!</h1>
 </body>
+<script>
+    setTimeout(function () {
+        window.location.href = "{% url 'user:login'%}";
+    }, 3000);
+</script>
