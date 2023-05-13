@@ -15,7 +15,6 @@ class LoginForm(forms.ModelForm):
                                              'required': True}),
         }
 
-
 class RegisterForm(forms.ModelForm):
     class Meta:
         model = User
@@ -44,9 +43,9 @@ class UserUpdateForm(forms.ModelForm):
         model = User
         fields = ['email', 'name', 'last_name', ]
         widgets = {
-            'email': forms.EmailInput(attrs={'readonly': True}),
-            'name': forms.TextInput(),
-            'last_name': forms.TextInput(),
+            'email': forms.EmailInput(attrs={'readonly': True, 'class': 'bg-white border sm:text-sm rounded-lg block w-full p-2.5 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500'}),
+            'name': forms.TextInput(attrs={'class': 'bg-white border sm:text-sm rounded-lg block w-full p-2.5 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500'}),
+            'last_name': forms.TextInput(attrs={'class': 'bg-white border sm:text-sm rounded-lg block w-full p-2.5 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500'}),
         }
         labels = {
             'name': 'First Name',
@@ -64,7 +63,7 @@ class AvatarUpdateForm(forms.ModelForm):
         model = UserProfile
         fields = ['avatar']
         widgets = {
-            'avatar': forms.FileInput(),
+            'avatar': forms.FileInput(attrs={}),
         }
         labels = {
             'avatar': 'Avatar',

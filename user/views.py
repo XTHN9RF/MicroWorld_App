@@ -84,5 +84,5 @@ class UserUpdateView(LoginRequiredMixin, View):
         if user_form.is_valid() and avatar_form.is_valid():
             user_form.save()
             avatar_form.save()
-            return HttpResponse('Ви успішно оновили свій профіль', status=200)
+            return redirect('user:home')
         return render(request, 'user/update.html', {'user_form': user_form, 'avatar_form': avatar_form})
