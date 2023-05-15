@@ -84,9 +84,11 @@ class UserUpdateView(LoginRequiredMixin, View):
     def post(self, request):
         """Handles POST requests"""
         user_form = self.form(instance=request.user, data=request.POST)
-        avatar_form = self.avatar_form(instance=request.user, files=request.FILES)
+        avatar_form = self.avatar_form(instance=request.user.userprofile, files=request.FILES)
+        user_avatar = UserProfile.objects.get(user=request.user)
+        context = {'user_form': user_form, 'avatar_form': avatar_form, 'user_avatar': user_avatar}
         if user_form.is_valid() and avatar_form.is_valid():
             user_form.save()
             avatar_form.save()
             return redirect('user:home')
-        return render(request, 'user/update.html', {'user_form': user_form, 'avatar_form': avatar_form})
+        return render(request, 'user/update.html', context)
