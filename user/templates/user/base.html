@@ -1,5 +1,7 @@
 {% load static %}
-<html>
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="{% static 'user/css/default_form.css'%}">
@@ -15,14 +17,6 @@
                 <li>
                     <a href="{% url 'posts:create' %}"
                        class="block py-2 pl-3 pr-4  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Створити пост</a>
-                </li>
-                <li>
-                    <a href="#"
-                       class="block py-2 pl-3 pr-4  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Початок</a>
-                </li>
-                <li>
-                    <a href="#"
-                       class="block py-2 pl-3 pr-4  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Ціни</a>
                 </li>
                 {% if request.user.is_authenticated %}
                 <li>
