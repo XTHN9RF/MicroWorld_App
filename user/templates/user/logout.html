@@ -1,11 +1,20 @@
-<body>
-<h2>
-    Ви вийшли з системи
-</h2>
-<h1> Дякуємо за те,що проводите свій час з нами!</h1>
-</body>
-<script>
-    setTimeout(function () {
-        window.location.href = "{% url 'user:login'%}";
-    }, 3000);
-</script>
+{% extends 'user/base.html' %}
+{% load static %}
+
+{% block body %}
+    <section class="flex justify-center mt-10">
+        <div class="max-w-sm border rounded-lg shadow bg-gray-700 border-gray-700">
+            <img class="rounded-t-lg" src="{% static 'user/images/logout.jpg' %}" alt=""/>
+            <div class="p-5">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-white dark:text-white">Дякуємо,що провели з нами
+                    час</h5>
+                <p class="mb-3 font-normal text-white">Повертайтесь, ваш маленький світ завжди чекатиме на вас</p>
+            </div>
+        </div>
+    </section>
+    <script>
+        setTimeout(function () {
+            window.location.href = "{% url 'user:login'%}";
+        }, 1500);
+    </script>
+{% endblock %}
