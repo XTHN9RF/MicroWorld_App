@@ -16,5 +16,5 @@ class PostForm(forms.ModelForm):
                 attrs={'placeholder': 'Вміст поста (250 символів максимум)', 'maxlength': '250', 'required': True,
                        'class': 'bg-white border sm:text-sm rounded-lg block w-full p-2.5 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500'}),
             'image': forms.FileInput(attrs={'placeholder': 'Зображення поста', 'required': True,
-                                            'class': 'text-white sm:text-sm rounded-lg block w-full p-2.5 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500'}),
+                                            'class':"block w-full text-sm text-gray-600 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"})
         }

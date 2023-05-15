@@ -63,7 +63,7 @@ class AvatarUpdateForm(forms.ModelForm):
         model = UserProfile
         fields = ['avatar']
         widgets = {
-            'avatar': forms.FileInput(attrs={}),
+            'avatar': forms.FileInput(attrs={'class': 'text-white'}),
         }
         labels = {
             'avatar': 'Avatar',
