@@ -33,7 +33,7 @@ class LoginView(View):
             return redirect('user:home')
         else:
             return HttpResponse('Неправильні пароль або ім\'я користувача', status=401)
-        #return render(request, 'user/login.html', {'form': form})
+        # return render(request, 'user/login.html', {'form': form})
 
 
 class HomePageView(LoginRequiredMixin, View):
@@ -43,7 +43,9 @@ class HomePageView(LoginRequiredMixin, View):
         """Handles GET requests"""
         user = request.user
         posts = Post.objects.filter(user=user)
-        return render(request, 'user/index.html', {'posts': posts})
+        user_avatar = UserProfile.objects.get(user=user)
+        context = {'posts': posts, 'user': user, 'user_avatar': user_avatar}
+        return render(request, 'user/index.html', context)
 
 
 class RegisterView(View):
@@ -74,8 +76,10 @@ class UserUpdateView(LoginRequiredMixin, View):
     def get(self, request):
         """Handles GET requests"""
         user_form = self.form(instance=request.user)
-        avatar_form = self.avatar_form(instance=request.user)
-        return render(request, 'user/update.html', {'user_form': user_form, 'avatar_form': avatar_form})
+        avatar_form = self.avatar_form(instance=request.user.userprofile)
+        user_avatar = UserProfile.objects.get(user=request.user)
+        context = {'user_form': user_form, 'avatar_form': avatar_form, 'user_avatar': user_avatar}
+        return render(request, 'user/update.html', context)
 
     def post(self, request):
         """Handles POST requests"""
