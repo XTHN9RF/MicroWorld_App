@@ -9,9 +9,8 @@ from django.http import HttpResponse
 from .forms import LoginForm
 from .forms import RegisterForm
 from .forms import UserUpdateForm
-from .forms import AvatarUpdateForm
 
-from .models import UserProfile, User
+from .models import User
 from posts.models import Post
 
 
@@ -43,8 +42,7 @@ class HomePageView(LoginRequiredMixin, View):
         """Handles GET requests"""
         user = request.user
         posts = Post.objects.filter(user=user)
-        user_avatar = UserProfile.objects.get(user=user)
-        context = {'posts': posts, 'user': user, 'user_avatar': user_avatar}
+        context = {'posts': posts, 'user': user, }
         return render(request, 'user/index.html', context)
 
 
@@ -63,7 +61,6 @@ class RegisterView(View):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
-            UserProfile.objects.create(user=user)
             return redirect('user:login')
         return render(request, 'user/register.html', {'form': form})
 
@@ -71,24 +68,18 @@ class RegisterView(View):
 class UserUpdateView(LoginRequiredMixin, View):
     """Handles logic of user update view"""
     form = UserUpdateForm
-    avatar_form = AvatarUpdateForm
 
     def get(self, request):
         """Handles GET requests"""
         user_form = self.form(instance=request.user)
-        avatar_form = self.avatar_form(instance=request.user.userprofile)
-        user_avatar = UserProfile.objects.get(user=request.user)
-        context = {'user_form': user_form, 'avatar_form': avatar_form, 'user_avatar': user_avatar}
+        context = {'user_form': user_form}
         return render(request, 'user/update.html', context)
 
     def post(self, request):
         """Handles POST requests"""
-        user_form = self.form(instance=request.user, data=request.POST)
-        avatar_form = self.avatar_form(instance=request.user.userprofile, files=request.FILES)
-        user_avatar = UserProfile.objects.get(user=request.user)
-        context = {'user_form': user_form, 'avatar_form': avatar_form, 'user_avatar': user_avatar}
-        if user_form.is_valid() and avatar_form.is_valid():
+        user_form = self.form(instance=request.user, data=request.POST, files=request.FILES)
+        context = {'user_form': user_form, }
+        if user_form.is_valid():
             user_form.save()
-            avatar_form.save()
             return redirect('user:home')
         return render(request, 'user/update.html', context)

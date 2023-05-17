@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 
+
 class UserManager(BaseUserManager):
     """Manager that helps to create user with validated credentials and hashed password"""
 
@@ -34,6 +35,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     password = models.CharField(max_length=150)
+    avatar = models.ImageField(upload_to='user/avatars/%y/%m/%d', blank=True,default='user/avatars/23/05/17/default.jpg')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False, editable=False)
 
@@ -45,8 +47,3 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         """" Return string representation of user to display it understandably in the admin panel """
         return self.email
-
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='user/avatars/', blank=True)

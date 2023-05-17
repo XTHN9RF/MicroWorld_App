@@ -1,5 +1,5 @@
 from django import forms
-from user.models import User, UserProfile
+from user.models import User
 
 
 class LoginForm(forms.ModelForm):
@@ -41,11 +41,12 @@ class RegisterForm(forms.ModelForm):
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['email', 'name', 'last_name', ]
+        fields = ['email', 'name', 'last_name','avatar']
         widgets = {
             'email': forms.EmailInput(attrs={'readonly': True, 'class': 'bg-white border sm:text-sm rounded-lg block w-full p-2.5 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500'}),
             'name': forms.TextInput(attrs={'class': 'bg-white border sm:text-sm rounded-lg block w-full p-2.5 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500'}),
             'last_name': forms.TextInput(attrs={'class': 'bg-white border sm:text-sm rounded-lg block w-full p-2.5 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500'}),
+            'avatar': forms.FileInput(attrs={'class': 'text-white'}),
         }
         labels = {
             'name': 'First Name',
@@ -55,19 +56,5 @@ class UserUpdateForm(forms.ModelForm):
             'email': {'required': False, },
             'name': {'required': False},
             'last_name': {'required': False},
-        }
-
-
-class AvatarUpdateForm(forms.ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ['avatar']
-        widgets = {
-            'avatar': forms.FileInput(attrs={'class': 'text-white'}),
-        }
-        labels = {
-            'avatar': 'Avatar',
-        }
-        extra_kwargs = {
             'avatar': {'required': False, },
         }
