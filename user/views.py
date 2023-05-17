@@ -44,7 +44,7 @@ class HomePageView(LoginRequiredMixin, View):
         user = request.user
         posts = Post.objects.filter(user=user)
         comment_form = CommentForm()
-        context = {'posts': posts, 'user': user,'comment_form': comment_form,}
+        context = {'posts': posts, 'user': user, 'comment_form': comment_form, }
         return render(request, 'user/index.html', context)
 
     def post(self, request):
@@ -57,6 +57,7 @@ class HomePageView(LoginRequiredMixin, View):
             comment.save()
             return redirect('user:home')
         return HttpResponse('Неправильні дані', status=401)
+
 
 class RegisterView(View):
     """Handles logic of registration view"""
@@ -95,3 +96,27 @@ class UserUpdateView(LoginRequiredMixin, View):
             user_form.save()
             return redirect('user:home')
         return render(request, 'user/update.html', context)
+
+
+class UserProfileView(LoginRequiredMixin, View):
+    """Handles logic of user profile view"""
+    form = CommentForm
+    def get(self, request):
+        """Handles GET requests"""
+        user = request.user
+        user_form = self.form(instance=user)
+        post = Post.objects.filter(user=user).latest('date_posted')
+        comment_form = CommentForm()
+        context = {'user': user, 'post': post, 'comment_form': comment_form, }
+        return render(request, 'user/profile.html', context)
+
+    def post(self, request):
+        """Handles POST requests"""
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.user = request.user
+            comment.post = Post.objects.get(id=request.POST['post_id'])
+            comment.save()
+            return redirect('user:profile')
+        return HttpResponse('Неправильні дані', status=401)
