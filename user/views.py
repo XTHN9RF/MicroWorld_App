@@ -5,6 +5,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.http import HttpResponse
+from django.urls import reverse_lazy
+
+from django.contrib.auth import views as auth_views
 
 from .forms import LoginForm
 from .forms import RegisterForm
@@ -122,3 +125,31 @@ class UserProfileView(LoginRequiredMixin, View):
             comment.save()
             return redirect('user:profile')
         return HttpResponse('Неправильні дані', status=401)
+
+
+class PasswordResetView(auth_views.PasswordResetView):
+    """Handles logic of password reset view"""
+    template_name = 'user/password_reset.html'
+    success_url = reverse_lazy('user:password_reset_done')
+
+class PasswordResetDoneView(auth_views.PasswordResetDoneView):
+    """Handles logic of password reset done view"""
+    template_name = 'user/password_reset_done.html'
+
+class PasswordResetConfirmView(auth_views.PasswordResetConfirmView):
+    """Handles logic of password reset confirm view"""
+    template_name = 'user/password_reset_confirm.html'
+    success_url = reverse_lazy('user:password_reset_complete')
+
+class PasswordResetCompleteView(auth_views.PasswordResetCompleteView):
+    """Handles logic of password reset complete view"""
+    template_name = 'user/password_reset_complete.html'
+
+class PasswordChangeView(auth_views.PasswordChangeView):
+    """Handles logic of password change view"""
+    template_name = 'user/password_change.html'
+    success_url = reverse_lazy('user:password_change_done')
+
+class PasswordChangeDoneView(auth_views.PasswordChangeDoneView):
+    """Handles logic of password change done view"""
+    template_name = 'user/password_change_done.html'
