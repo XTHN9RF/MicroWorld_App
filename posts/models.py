@@ -10,6 +10,7 @@ class Post(models.Model):
     slug = models.SlugField(max_length=100, blank=True)
     image = models.ImageField(upload_to='posts/%y/%m/%d', blank=True)
     date_posted = models.DateTimeField(auto_now_add=True)
+    liked_by = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked', blank=True)
 
     def __str__(self):
         """Return a string representation of the model title in admin panel"""

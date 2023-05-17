@@ -11,14 +11,14 @@
                     >
                         <img
                                 alt="avatar"
-                                src = "{{ post.user.avatar.url }}"
+                                src="{{ post.user.avatar.url }}"
                                 class="rounded-full w-full h-full object-cover ">
                         <div>
                         </div>
                     </div>
                     <div class="space-y-2">
                         <div class="flex space-x-2 items-center">
-                            <h2 class="text-base"> {{ user.name }} {{ user.last_name }} </h2>
+                            <h2 class="text-base"> {{ post.user.name }} {{ post.user.last_name }} </h2>
                             <svg class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24"
                                  stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -41,13 +41,43 @@
                 <!-- comments-->
 
                 <div class="flex justify-between pt-5">
-
-                    <svg class="h-4 w-4 text-red-500" fill="none" viewBox="0 0 24 24"
-                         stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
-                    </svg>
-
+                    <a id="{{ post.id }}" class="btn-like">
+                        {% if user in post.liked_by.all %}
+                            <div class="flex cursor-pointer justify-items-center align-center">
+                                <svg class="h-5 w-5 text-red-600" fill="red" viewBox="0 0 24 24"
+                                     stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+                                </svg>
+                                <div class="ml-3">
+                                    {% if post.liked_by.all.count == 1 %}
+                                    {{ post.liked_by.all.count }} Лайк
+                                    {% elif post.liked_by.all.count == 3 or post.liked_by.all.count == 2 %}
+                                    {{ post.liked_by.all.count}} Лайки
+                                    {% else %}
+                                    {{ post.liked_by.all.count }} Лайків
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="flex cursor-pointer justify-items-center align-center">
+                                <svg class="h-5 w-5 text-red-600" fill="none" viewBox="0 0 24 24"
+                                     stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+                                </svg>
+                                <div class="ml-3">
+                                    {% if post.liked_by.all.count == 1 %}
+                                    {{ post.liked_by.all.count }} Лайк
+                                    {% elif post.liked_by.all.count == 3 or post.liked_by.all.count == 2 %}
+                                    {{ post.liked_by.all.count}} Лайки
+                                    {% else %}
+                                    {{ post.liked_by.all.count }} Лайків
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </a>
                     <div class="text-slate-400 text-sm"><p>23 Коментарів</p></div>
 
                 </div>
@@ -55,4 +85,23 @@
 
         </div>
     {% endfor %}
+    <script>
+        window.CSRF_TOKEN = '{{ csrf_token }}';
+        $(document).ready(function () {
+            $('.btn-like').click(function () {
+                let post_id = $(this).attr('id');
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "posts:like" %}',
+                    data: {
+                        'id': post_id,
+                        'csrfmiddlewaretoken': window.CSRF_TOKEN
+                    },
+                    success: function () {
+                        location.reload();
+                    }
+                })
+            })
+        });
+    </script>
 {% endblock %}

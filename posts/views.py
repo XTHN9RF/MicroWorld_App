@@ -25,3 +25,18 @@ class PostCreateView(LoginRequiredMixin, View):
             new_post.user = request.user
             new_post.save()
         return render(request, 'posts/create.html', {'form': form})
+
+
+class PostLikeView(View):
+    """A view to like a post"""
+    def get(self, request):
+        return redirect('user:home')
+    def post(self, request):
+        """Handle POST like functionality"""
+        post_id = request.POST.get('id')
+        post = Post.objects.get(id=post_id)
+        if post.liked_by.filter(id=request.user.id).exists():
+            post.liked_by.remove(request.user)
+        else:
+            post.liked_by.add(request.user)
+        return redirect('user:home')
