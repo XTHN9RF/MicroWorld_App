@@ -51,41 +51,91 @@
                                 </svg>
                                 <div class="ml-3">
                                     {% if post.liked_by.all.count == 1 %}
-                                    {{ post.liked_by.all.count }} Лайк
-                                    {% elif post.liked_by.all.count == 3 or post.liked_by.all.count == 2 %}
-                                    {{ post.liked_by.all.count}} Лайки
+                                        {{ post.liked_by.all.count }} Лайк
+                                    {% elif post.liked_by.all.count < 5 and post.liked_by.all.count > 0 %}
+                                        {{ post.liked_by.all.count }} Лайки
                                     {% else %}
-                                    {{ post.liked_by.all.count }} Лайків
+                                        {{ post.liked_by.all.count }} Лайків
                                     {% endif %}
                                 </div>
                             </div>
                         {% else %}
                             <div class="flex cursor-pointer justify-items-center align-center">
-                                <svg class="h-5 w-5 text-red-600" fill="none" viewBox="0 0 24 24"
+                                <svg class="h-5 w-5 text-red-600" id='heart' fill="none" viewBox="0 0 24 24"
                                      stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                           d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
                                 </svg>
                                 <div class="ml-3">
                                     {% if post.liked_by.all.count == 1 %}
-                                    {{ post.liked_by.all.count }} Лайк
-                                    {% elif post.liked_by.all.count == 3 or post.liked_by.all.count == 2 %}
-                                    {{ post.liked_by.all.count}} Лайки
+                                        {{ post.liked_by.all.count }} Лайк
+                                    {% elif post.liked_by.all.count < 5 and post.liked_by.all.count > 0 %}
+                                        {{ post.liked_by.all.count }} Лайки
                                     {% else %}
-                                    {{ post.liked_by.all.count }} Лайків
+                                        {{ post.liked_by.all.count }} Лайків
                                     {% endif %}
                                 </div>
                             </div>
                         {% endif %}
                     </a>
-                    <div class="text-slate-400 text-sm"><p>23 Коментарів</p></div>
-
+                    <div class="text-slate-400 text-sm">
+                        <button class="btn-comment">
+                            {% if post.comments.all.count == 1 %}
+                                {{ post.comments.all.count }} Коментар
+                            {% elif post.comments.all.count < 5 and post.comments.all.count > 0 %}
+                                {{ post.comments.all.count }} Коментарі
+                            {% else %}
+                                {{ post.comments.all.count }} Коментарів
+                            {% endif %}</button>
+                    </div>
+                </div>
+                <div id="comments" style="display: none">
+                    <div>
+                        <form class="mb-6" method="post" action="">
+                            {% csrf_token %}
+                            <div class="py-2 px-4 mb-4 rounded-lg rounded-t-lg border  bg-gray-800 border-gray-700">
+                                <label for="comment" class="sr-only">Залиште коментар</label>
+                                {{ comment_form.content }}
+                                {{ comment_form.content.errors }}
+                                <input type="hidden" value="{{ post.id }}" name="post_id" id="post_id">
+                            </div>
+                            <button type="submit"
+                                    class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-gray-800 rounded-lg focus:ring-4 focus:ring-primary-900 hover:bg-primary-800">
+                                Залишити коментар
+                            </button>
+                        </form>
+                    </div>
+                    {% for comment in post.comments.all %}
+                        <div class="flex mb-2">
+                            {% if comment.user.avatar %}
+                                <img class="w-8 h-8 rounded-full object-cover" src="{{ comment.user.avatar.url }}">
+                            {% else %}
+                                <img class="w-8 h-8 rounded-full object-cover"
+                                     src="{% static 'user/images/default.jpg' %}">
+                            {% endif %}
+                            <div class="ml-3">
+                                {% if comment.user == user %}
+                                    <strong> <div class="text-sm text-slate-400">Ви</div> </strong>
+                                    <div class="text-sm text-slate-400">{{ comment.content }}</div>
+                                {% else %}
+                                    <strong> <div class="text-sm text-slate-400">{{ comment.user.name }} {{ comment.user.last_name }}</div> </strong>
+                                    <div class="text-sm text-slate-400">{{ comment.content }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
 
         </div>
     {% endfor %}
     <script>
+        $(document).on('click', '.btn-comment', function () {
+            if ($(document).find('#comments').attr('style') == 'display: block')
+                $(document).find('#comments').attr('style', 'display: none')
+            else
+                $(document).find('#comments').attr('style', 'display: block')
+        })
         window.CSRF_TOKEN = '{{ csrf_token }}';
         $(document).ready(function () {
             $('.btn-like').click(function () {

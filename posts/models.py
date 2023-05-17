@@ -20,3 +20,15 @@ class Post(models.Model):
         """Override the save method to auto-generate a slug field"""
         self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+
+class Comment(models.Model):
+    """A blog comment model"""
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    content = models.TextField()
+    date_posted = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        """Return a string representation of the model content in admin panel"""
+        return self.content

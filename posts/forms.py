@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post
+from .models import Post, Comment
 
 
 class PostForm(forms.ModelForm):
@@ -17,4 +17,17 @@ class PostForm(forms.ModelForm):
                        'class': 'bg-white border sm:text-sm rounded-lg block w-full p-2.5 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500'}),
             'image': forms.FileInput(attrs={'placeholder': 'Зображення поста', 'required': True,
                                             'class':"block w-full text-sm text-gray-600 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"})
+        }
+
+
+class CommentForm(forms.ModelForm):
+    """A form to create a new comment"""
+
+    class Meta:
+        model = Comment
+        fields = ['content']
+        widgets = {
+            'content': forms.TextInput(
+                attrs={'placeholder': 'Коментар (100 символів максимум)', 'maxlength': '250', 'required': True,
+                       'class': "px-0 w-full text-sm border-0 focus:ring-0 focus:outline-none text-white placeholder-gray-400 bg-gray-800"}),
         }
