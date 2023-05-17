@@ -100,14 +100,16 @@ class UserUpdateView(LoginRequiredMixin, View):
 
 class UserProfileView(LoginRequiredMixin, View):
     """Handles logic of user profile view"""
-    form = CommentForm
+
     def get(self, request):
         """Handles GET requests"""
         user = request.user
-        user_form = self.form(instance=user)
-        post = Post.objects.filter(user=user).latest('date_posted')
         comment_form = CommentForm()
-        context = {'user': user, 'post': post, 'comment_form': comment_form, }
+        if Post.objects.filter(user=user).exists():
+            post = Post.objects.filter(user=user).latest('date_posted')
+            context = {'user': user, 'post': post, 'comment_form': comment_form, }
+        else:
+            context = {'user': user, 'comment_form': comment_form, }
         return render(request, 'user/profile.html', context)
 
     def post(self, request):
