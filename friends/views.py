@@ -68,14 +68,17 @@ class RemoveFriend(LoginRequiredMixin, View):
 
 class FriendRequestListView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
+        user = request.user
         friend_requests_to_user = FriendRequest.objects.filter(to_user=request.user)
         friend_requests_from_user = FriendRequest.objects.filter(from_user=request.user)
-        return render(request, "friends/friend_request_list.html", {"friend_requests": friend_requests_to_user})
+        context = {'friend_requests_to_user': friend_requests_to_user,
+                   'friend_requests_from_user': friend_requests_from_user, 'user': user}
+        return render(request, "friends/friend_request_list.html", context)
 
 
 class FriendListView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
+        user = request.user
         friends = request.user.friends.all()
-        return render(request, "friends/friend_list.html", {"friends": friends})
-
-
+        context = {'friends': friends, 'user': user}
+        return render(request, "friends/friend_list.html", context)
