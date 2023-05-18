@@ -25,9 +25,12 @@
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                       d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
-                            <div class="  text-xs text-slate-400">Публікує</div>
+                            <div class=" text-xs text-slate-400">Публікує</div>
                         </div>
-                        <p class=" text-xs text-slate-400">{{ post.date_posted }}</p>
+                        <div class="flex justify-between w-full">
+                        <div class="flex text-xs text-slate-400">{{ post.date_posted }}</div>
+                        <div class="text-white text-lg"> <button id="{{ post.id }}" class="btn-post-delete"> <i class="fa-solid fa-trash"></i> </button></div>
+                        </div>
                     </div>
 
                 </div>
@@ -141,13 +144,32 @@
             else
                 $(document).find('#comments').attr('style', 'display: block')
         })
+
         window.CSRF_TOKEN = '{{ csrf_token }}';
+
         $(document).ready(function () {
             $('.btn-like').click(function () {
                 let post_id = $(this).attr('id');
                 $.ajax({
                     type: 'POST',
                     url: '{% url "posts:like" %}',
+                    data: {
+                        'id': post_id,
+                        'csrfmiddlewaretoken': window.CSRF_TOKEN
+                    },
+                    success: function () {
+                        location.reload();
+                    }
+                })
+            })
+        });
+
+        $(document).ready(function () {
+            $('.btn-post-delete').click(function () {
+                let post_id = $(this).attr('id');
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "posts:delete" %}',
                     data: {
                         'id': post_id,
                         'csrfmiddlewaretoken': window.CSRF_TOKEN

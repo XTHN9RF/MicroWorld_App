@@ -8,6 +8,7 @@ from .models import Post
 from .forms import PostForm
 from .forms import CommentForm
 
+
 class PostCreateView(LoginRequiredMixin, View):
     """A view to list all posts"""
 
@@ -24,6 +25,7 @@ class PostCreateView(LoginRequiredMixin, View):
             new_post = form.save(commit=False)
             new_post.user = request.user
             new_post.save()
+            return redirect('posts:own_posts')
         return render(request, 'posts/create.html', {'form': form})
 
 
@@ -65,3 +67,11 @@ class UserPostView(LoginRequiredMixin, View):
             comment.save()
             return redirect('posts:own_posts')
         return HttpResponse('Неправильні дані', status=401)
+
+
+class DeletePostView(LoginRequiredMixin,View):
+    def post(self, request):
+        post_id = request.POST.get('id')
+        post = Post.objects.get(id=post_id)
+        post.delete()
+        return redirect('posts:own_posts')
