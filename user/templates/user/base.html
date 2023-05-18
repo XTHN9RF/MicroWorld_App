@@ -4,8 +4,9 @@
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="{% static 'user/css/default_form.css'%}">
-    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'user/css/default_form.css' %}">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"
+            integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/f7a57b72be.js" crossorigin="anonymous"></script>
 </head>
 <nav class="bg-gray-700 text-white">
@@ -18,23 +19,30 @@
             <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0">
                 <li>
                     <a href="{% url 'posts:create' %}"
-                       class="block py-2 pl-3 pr-4  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Створити пост</a>
+                       class="block py-2 pl-3 pr-4  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Створити
+                        пост</a>
                 </li>
                 {% if request.user.is_authenticated %}
-                <li>
-                    <a href="{% url 'user:profile' request.user.email %}"
-                       class="block py-2 pl-3 pr-4  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Мій профіль</a>
-                </li>
-                {% endif %}
-                <li>
-                    {% if request.user.is_authenticated %}
+                    <li>
+                        <a href="{% url 'friends:friends_list'%}"
+                           class="block py-2 pl-3 pr-4  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Друзі</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'user:profile' request.user.email %}"
+                           class="block py-2 pl-3 pr-4  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Мій
+                            профіль</a>
+                    </li>
+                    <li>
                         <a class="block py-2 pl-3 pr-4  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
                            href="{% url 'user:logout' %}">Вийти з акаунта</a>
-                    {% else %}
+                    </li>
+                {% else %}
+                    <li>
                         <a class="block py-2 pl-3 pr-4  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
                            href="{% url 'user:login' %}">Увійти в акаунт</a>
-                    {% endif %}
-                </li>
+                    </li>
+                {% endif %}
+
             </ul>
         </div>
     </div>
