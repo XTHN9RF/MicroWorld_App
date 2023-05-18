@@ -38,6 +38,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     avatar = models.ImageField(upload_to='user/avatars/%y/%m/%d', blank=True,default='user/avatars/23/05/17/default.jpg')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False, editable=False)
+    friends = models.ManyToManyField('self', blank=True, symmetrical=True)
 
     objects = UserManager()
 
