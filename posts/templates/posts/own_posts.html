@@ -37,7 +37,7 @@
                 <!--content-->
                 <div>
                     <p>
-                        <img class="max-w-2xl" src="{{ post.image.url }}">
+                        <img class="max-w-2xl" src="{{ post.image.url }}" style="min-width: 672px; max-height: 500px;">
                     </p>
                     <p class="text-sm leading-6 text-slate-300 break-words mt-10 p-1"> {{ post.content }} </p>
                 </div>
@@ -83,7 +83,7 @@
                         {% endif %}
                     </a>
                     <div class="text-slate-400 text-sm">
-                        <button class="btn-comment">
+                        <button class="btn-comment" onclick="displayComment({{ post.id }})">
                             {% if post.comments.all.count == 1 %}
                                 {{ post.comments.all.count }} Коментар
                             {% elif post.comments.all.count < 5 and post.comments.all.count > 0 %}
@@ -93,7 +93,7 @@
                             {% endif %}</button>
                     </div>
                 </div>
-                <div id="comments" style="display: none">
+                <div id="comment{{ post.id }}" style="display: none">
                     <div>
                         <form class="mb-6" method="post" action="">
                             {% csrf_token %}
@@ -138,12 +138,10 @@
         </div>
     {% endfor %}
     <script>
-        $(document).on('click', '.btn-comment', function () {
-            if ($(document).find('#comments').attr('style') == 'display: block')
-                $(document).find('#comments').attr('style', 'display: none')
-            else
-                $(document).find('#comments').attr('style', 'display: block')
-        })
+        function displayComment(post_id) {
+            let commentDiv = document.getElementById('comment' + post_id).style;
+            commentDiv.display = (commentDiv.display === 'block' ? 'none' : 'block');
+        }
 
         window.CSRF_TOKEN = '{{ csrf_token }}';
 
