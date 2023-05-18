@@ -45,7 +45,7 @@ class HomePageView(LoginRequiredMixin, View):
     def get(self, request):
         """Handles GET requests"""
         user = request.user
-        posts = Post.objects.filter(user=user)
+        posts = Post.objects.all().order_by('-date_posted')
         comment_form = CommentForm()
         context = {'posts': posts, 'user': user, 'comment_form': comment_form, }
         return render(request, 'user/index.html', context)
@@ -97,16 +97,16 @@ class UserUpdateView(LoginRequiredMixin, View):
         context = {'user_form': user_form, }
         if user_form.is_valid():
             user_form.save()
-            return redirect('user:home')
+            return redirect(f'user:profile/{request.user.email}')
         return render(request, 'user/update.html', context)
 
 
 class UserProfileView(LoginRequiredMixin, View):
     """Handles logic of user profile view"""
 
-    def get(self, request):
+    def get(self, request, pk):
         """Handles GET requests"""
-        user = request.user
+        user = User.objects.get(email=pk)
         comment_form = CommentForm()
         if Post.objects.filter(user=user).exists():
             post = Post.objects.filter(user=user).latest('date_posted')
@@ -115,7 +115,7 @@ class UserProfileView(LoginRequiredMixin, View):
             context = {'user': user, 'comment_form': comment_form, }
         return render(request, 'user/profile.html', context)
 
-    def post(self, request):
+    def post(self, request, pk):
         """Handles POST requests"""
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
@@ -123,7 +123,7 @@ class UserProfileView(LoginRequiredMixin, View):
             comment.user = request.user
             comment.post = Post.objects.get(id=request.POST['post_id'])
             comment.save()
-            return redirect('user:profile')
+            return redirect('user:profile', pk=pk)
         return HttpResponse('Неправильні дані', status=401)
 
 

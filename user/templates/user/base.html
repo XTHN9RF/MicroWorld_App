@@ -21,7 +21,7 @@
                 </li>
                 {% if request.user.is_authenticated %}
                 <li>
-                    <a href="{% url 'user:profile' %}"
+                    <a href="{% url 'user:profile' request.user.email %}"
                        class="block py-2 pl-3 pr-4  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Мій профіль</a>
                 </li>
                 {% endif %}

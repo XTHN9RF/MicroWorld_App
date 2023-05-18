@@ -4,7 +4,7 @@
     <div class="p-16">
         <div class="p-8 bg-white shadow mt-24">
             <div class="">
-                <img class="w-48 h-48 mx-auto rounded-full shadow-2xl" src="{% static 'user/images/default.jpg' %}">
+                <img class="w-48 h-48 mx-auto rounded-full shadow-2xl" src="{{ user.avatar.url }}">
             </div>
 
             <div class="mt-20 text-center border-b pb-12">
@@ -12,159 +12,164 @@
                 <p class="font-light text-gray-600 mt-3">Україна</p>
             </div>
             <div class="flex justify-center items-center" style="margin-top: 20px; gap:20px;">
-                <button class="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
-                        style="height: fit-content"
-                >Додати у друзі
-                </button>
-                <button class="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
-                        style="height: fit-content"
-                >Написати
-                </button>
                 {% if user == request.user %}
                     <a href="{% url 'user:update_profile' %}">
                         <button class="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
                                 style="height: fit-content">Редагувати профіль
                         </button>
                     </a>
-                    <a href="{% url 'user:home' %}">
+                    <a href="{% url 'posts:own_posts' %}">
                         <button class="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
                                 style="height: fit-content">Переглянути мої пости
                         </button>
                     </a>
+                {% else %}
+                    <button class="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
+                            style="height: fit-content"
+                    >Додати у друзі
+                    </button>
+                    <button class="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
+                            style="height: fit-content"
+                    >Написати
+                    </button>
                 {% endif %}
             </div>
         </div>
     </div>
-    <h1 class="text-2xl text-center mt-1 font-medium text-gray-700">Найсвіжіший пост користувача</h1>
-    <div class="mt-10 flex justify-center items-center bg-white mb-5">
-        <div class="bg-gray-700 text-white rounded-lg space-y-6"
-             style="width: fit-content; max-width: 40%; height: fit-content; padding: 30px">
-            <!-- header -->
-            <div class="flex space-x-4 items-center ">
-                <div class="w-12 h-12"
-                >
-                    <img
-                            alt="avatar"
-                            src="{{ post.user.avatar.url }}"
-                            class="rounded-full w-full h-full object-cover ">
-                    <div>
+    {% if post %}
+        <h1 class="text-2xl text-center mt-1 font-medium text-gray-700">Найсвіжіший пост користувача</h1>
+        <div class="mt-10 flex justify-center items-center bg-white mb-5">
+            <div class="bg-gray-700 text-white rounded-lg space-y-6"
+                 style="width: fit-content; max-width: 40%; height: fit-content; padding: 30px">
+                <!-- header -->
+                <div class="flex space-x-4 items-center ">
+                    <div class="w-12 h-12"
+                    >
+                        <img
+                                alt="avatar"
+                                src="{{ post.user.avatar.url }}"
+                                class="rounded-full w-full h-full object-cover ">
+                        <div>
+                        </div>
                     </div>
-                </div>
-                <div class="space-y-2">
-                    <div class="flex space-x-2 items-center">
-                        <h2 class="text-base"> {{ post.user.name }} {{ post.user.last_name }} </h2>
-                        <svg class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24"
-                             stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        <div class="  text-xs text-slate-400">Публікує</div>
-                    </div>
-                    <p class=" text-xs text-slate-400">{{ post.date_posted }}</p>
-                </div>
-
-            </div>
-            <!--content-->
-            <div>
-                <p>
-                    <img class="max-w-2xl" src="{{ post.image.url }}">
-                </p>
-                <p class="text-sm leading-6 text-slate-300 break-words mt-10 p-1"> {{ post.content }} </p>
-            </div>
-
-            <!-- comments-->
-
-            <div class="flex justify-between pt-5">
-                <a id="{{ post.id }}" class="btn-like">
-                    {% if user in post.liked_by.all %}
-                        <div class="flex cursor-pointer justify-items-center align-center">
-                            <svg class="h-5 w-5 text-red-600" fill="red" viewBox="0 0 24 24"
+                    <div class="space-y-2">
+                        <div class="flex space-x-2 items-center">
+                            <h2 class="text-base"> {{ post.user.name }} {{ post.user.last_name }} </h2>
+                            <svg class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24"
                                  stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
-                            <div class="ml-3">
-                                {% if post.liked_by.all.count == 1 %}
-                                    {{ post.liked_by.all.count }} Лайк
-                                {% elif post.liked_by.all.count < 5 and post.liked_by.all.count > 0 %}
-                                    {{ post.liked_by.all.count }} Лайки
-                                {% else %}
-                                    {{ post.liked_by.all.count }} Лайків
-                                {% endif %}
-                            </div>
+                            <div class="  text-xs text-slate-400">Публікує</div>
                         </div>
-                    {% else %}
-                        <div class="flex cursor-pointer justify-items-center align-center">
-                            <svg class="h-5 w-5 text-red-600" id='heart' fill="none" viewBox="0 0 24 24"
-                                 stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
-                            </svg>
-                            <div class="ml-3">
-                                {% if post.liked_by.all.count == 1 %}
-                                    {{ post.liked_by.all.count }} Лайк
-                                {% elif post.liked_by.all.count < 5 and post.liked_by.all.count > 0 %}
-                                    {{ post.liked_by.all.count }} Лайки
-                                {% else %}
-                                    {{ post.liked_by.all.count }} Лайків
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% endif %}
-                </a>
-                <div class="text-slate-400 text-sm">
-                    <button class="btn-comment">
-                        {% if post.comments.all.count == 1 %}
-                            {{ post.comments.all.count }} Коментар
-                        {% elif post.comments.all.count < 5 and post.comments.all.count > 0 %}
-                            {{ post.comments.all.count }} Коментарі
-                        {% else %}
-                            {{ post.comments.all.count }} Коментарів
-                        {% endif %}</button>
+                        <p class=" text-xs text-slate-400">{{ post.date_posted }}</p>
+                    </div>
+
                 </div>
-            </div>
-            <div id="comments" style="display: none">
+                <!--content-->
                 <div>
-                    <form class="mb-6" method="post" action="">
-                        {% csrf_token %}
-                        <div class="py-2 px-4 mb-4 rounded-lg rounded-t-lg border  bg-gray-800 border-gray-700">
-                            <label for="comment" class="sr-only">Залиште коментар</label>
-                            {{ comment_form.content }}
-                            {{ comment_form.content.errors }}
-                            <input type="hidden" value="{{ post.id }}" name="post_id" id="post_id">
-                        </div>
-                        <button type="submit"
-                                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-gray-800 rounded-lg focus:ring-4 focus:ring-primary-900 hover:bg-primary-800">
-                            Залишити коментар
-                        </button>
-                    </form>
+                    <p>
+                        <img class="max-w-2xl" src="{{ post.image.url }}">
+                    </p>
+                    <p class="text-sm leading-6 text-slate-300 break-words mt-10 p-1"> {{ post.content }} </p>
                 </div>
-                {% for comment in post.comments.all %}
-                    <div class="flex mb-2">
-                        {% if comment.user.avatar %}
-                            <img class="w-8 h-8 rounded-full object-cover" src="{{ comment.user.avatar.url }}">
+
+                <!-- comments-->
+
+                <div class="flex justify-between pt-5">
+                    <a id="{{ post.id }}" class="btn-like">
+                        {% if user in post.liked_by.all %}
+                            <div class="flex cursor-pointer justify-items-center align-center">
+                                <svg class="h-5 w-5 text-red-600" fill="red" viewBox="0 0 24 24"
+                                     stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+                                </svg>
+                                <div class="ml-3">
+                                    {% if post.liked_by.all.count == 1 %}
+                                        {{ post.liked_by.all.count }} Лайк
+                                    {% elif post.liked_by.all.count < 5 and post.liked_by.all.count > 0 %}
+                                        {{ post.liked_by.all.count }} Лайки
+                                    {% else %}
+                                        {{ post.liked_by.all.count }} Лайків
+                                    {% endif %}
+                                </div>
+                            </div>
                         {% else %}
-                            <img class="w-8 h-8 rounded-full object-cover"
-                                 src="{% static 'user/images/default.jpg' %}">
+                            <div class="flex cursor-pointer justify-items-center align-center">
+                                <svg class="h-5 w-5 text-red-600" id='heart' fill="none" viewBox="0 0 24 24"
+                                     stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+                                </svg>
+                                <div class="ml-3">
+                                    {% if post.liked_by.all.count == 1 %}
+                                        {{ post.liked_by.all.count }} Лайк
+                                    {% elif post.liked_by.all.count < 5 and post.liked_by.all.count > 0 %}
+                                        {{ post.liked_by.all.count }} Лайки
+                                    {% else %}
+                                        {{ post.liked_by.all.count }} Лайків
+                                    {% endif %}
+                                </div>
+                            </div>
                         {% endif %}
-                        <div class="ml-3">
-                            {% if comment.user == user %}
-                                <strong>
-                                    <div class="text-sm text-slate-400">Ви</div>
-                                </strong>
-                                <div class="text-sm text-slate-400">{{ comment.content }}</div>
+                    </a>
+                    <div class="text-slate-400 text-sm">
+                        <button class="btn-comment">
+                            {% if post.comments.all.count == 1 %}
+                                {{ post.comments.all.count }} Коментар
+                            {% elif post.comments.all.count < 5 and post.comments.all.count > 0 %}
+                                {{ post.comments.all.count }} Коментарі
                             {% else %}
-                                <strong>
-                                    <div class="text-sm text-slate-400">{{ comment.user.name }} {{ comment.user.last_name }}</div>
-                                </strong>
-                                <div class="text-sm text-slate-400">{{ comment.content }}</div>
-                            {% endif %}
-                        </div>
+                                {{ post.comments.all.count }} Коментарів
+                            {% endif %}</button>
                     </div>
-                {% endfor %}
+                </div>
+                <div id="comments" style="display: none">
+                    <div>
+                        <form class="mb-6" method="post" action="">
+                            {% csrf_token %}
+                            <div class="py-2 px-4 mb-4 rounded-lg rounded-t-lg border  bg-gray-800 border-gray-700">
+                                <label for="comment" class="sr-only">Залиште коментар</label>
+                                {{ comment_form.content }}
+                                {{ comment_form.content.errors }}
+                                <input type="hidden" value="{{ post.id }}" name="post_id" id="post_id">
+                            </div>
+                            <button type="submit"
+                                    class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-gray-800 rounded-lg focus:ring-4 focus:ring-primary-900 hover:bg-primary-800">
+                                Залишити коментар
+                            </button>
+                        </form>
+                    </div>
+                    {% for comment in post.comments.all %}
+                        <div class="flex mb-2">
+                            {% if comment.user.avatar %}
+                                <img class="w-8 h-8 rounded-full object-cover" src="{{ comment.user.avatar.url }}">
+                            {% else %}
+                                <img class="w-8 h-8 rounded-full object-cover"
+                                     src="{% static 'user/images/default.jpg' %}">
+                            {% endif %}
+                            <div class="ml-3">
+                                {% if comment.user == request.user %}
+                                    <strong>
+                                        <div class="text-sm text-slate-400">Ви</div>
+                                    </strong>
+                                    <div class="text-sm text-slate-400">{{ comment.content }}</div>
+                                {% else %}
+                                    <strong> <a href="{% url 'user:profile' comment.user.email %}">
+                                        <div class="text-sm text-slate-400">{{ comment.user.name }} {{ comment.user.last_name }}</div>
+                                    </a> </strong>
+                                    <div class="text-sm text-slate-400">{{ comment.content }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
-    </div>
+    {% else %}
+        <h1 class="text-2xl text-center mt-1 font-medium text-gray-700">Цей користувач ще не має публікацій</h1>
+    {% endif %}
     <script>
         $(document).on('click', '.btn-comment', function () {
             if ($(document).find('#comments').attr('style') == 'display: block')
