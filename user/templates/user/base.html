@@ -17,14 +17,14 @@
         </a>
         <div class="hidden w-full md:block md:w-auto" id="navbar-default">
             <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0">
-                <li>
-                    <a href="{% url 'posts:create' %}"
-                       class="block py-2 pl-3 pr-4  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Створити
-                        пост</a>
-                </li>
                 {% if request.user.is_authenticated %}
                     <li>
-                        <a href="{% url 'friends:friends_list'%}"
+                        <a href="{% url 'posts:create' %}"
+                           class="block py-2 pl-3 pr-4  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Створити
+                            пост</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'friends:friends_list' %}"
                            class="block py-2 pl-3 pr-4  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Друзі</a>
                     </li>
                     <li>
