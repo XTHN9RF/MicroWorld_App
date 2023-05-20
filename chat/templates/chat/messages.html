@@ -55,11 +55,12 @@
                     {% endfor %}
                 </div>
                 <div class="py-5 align-text-bottom">
-                    <input
-                            class="w-full bg-gray-300 py-5 px-3 rounded-xl"
-                            type="text"
-                            placeholder="type your message here..."
-                    />
+                    <form action="" method="post" class="flex h-20">
+                        {% csrf_token %}
+                        {{ message_form.content }}
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                            Відправити </button>
+                    </form>
                 </div>
             </div>
         </div>
