@@ -29,14 +29,14 @@
                         </button>
                     </a>
                 {% else %}
-                    {% if is_requested %}
-                        <button class="text-white py-2 px-4 uppercase rounded bg-blue-600 hover:bg-blue-700 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
-                                style="height: fit-content;" disabled>Запит вже надіслано
-                        </button>
-                    {% elif request.user in user.friends.all %}
+                    {% if request.user in user.friends.all %}
                         <button class="text-white py-2 px-4 uppercase rounded bg-green-600 hover:bg-green-700 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
                                 style="height: fit-content" disabled
                         >Користувач вже у друзях
+                        </button>
+                    {% elif is_requested %}
+                        <button class="text-white py-2 px-4 uppercase rounded bg-blue-600 hover:bg-blue-700 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
+                                style="height: fit-content;" disabled>Запит вже надіслано
                         </button>
                     {% else %}
                         <a id="{{ user.email }}" class="btn-send">
