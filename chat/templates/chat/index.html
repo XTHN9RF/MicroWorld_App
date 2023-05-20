@@ -1,16 +1,12 @@
 {% extends 'user/base.html' %}
 {% load static %}
 {% block body %}
-    <div class="container mx-auto pt-5 shadow-lg rounded-lg">
-        <!-- Chatting -->
-        <div class="flex flex-row justify-between bg-white">
-            <!-- chat list -->
-            <div class="flex flex-col w-2/5 border-r-2 overflow-y-auto">
+    <div class="container mx-auto pt-5 shadow-lg rounded-lg bg-gray-700" style="margin-top: 30px; height: 700px;">
+        <div class="flex flex-row h-full justify-between">
+            <div class="flex flex-col w-2/5 border-r-4 overflow-y-auto">
                 <!-- user list -->
-                <div
-                        class="flex flex-row py-4 px-2 justify-center items-center border-b-2"
-                >
-                    <div class="w-1/4">
+                <div class="flex flex-row px-2 ml-2 justify-center items-center border-2 rounded-full hover:bg-gray-500 cursor-pointer">
+                    <div class="w-full">
                         <img
                                 src="https://source.unsplash.com/_7LbC5J-jw4/600x600"
                                 class="object-cover h-12 w-12 rounded-full"
@@ -18,87 +14,18 @@
                         />
                     </div>
                     <div class="w-full">
-                        <div class="text-lg font-semibold">Luis1994</div>
-                        <span class="text-gray-500">Pick me at 9:00 Am</span>
-                    </div>
-                </div>
-                <div class="flex flex-row py-4 px-2 items-center border-b-2">
-                    <div class="w-1/4">
-                        <img
-                                src="https://source.unsplash.com/otT2199XwI8/600x600"
-                                class="object-cover h-12 w-12 rounded-full"
-                                alt=""
-                        />
-                    </div>
-                    <div class="w-full">
-                        <div class="text-lg font-semibold">Everest Trip 2021</div>
-                        <span class="text-gray-500">Hi Sam, Welcome</span>
-                    </div>
-                </div>
-                <div
-                        class="flex flex-row py-4 px-2 items-center border-b-2 border-l-4 border-blue-400"
-                >
-                    <div class="w-1/4">
-                        <img
-                                src="https://source.unsplash.com/L2cxSuKWbpo/600x600"
-                                class="object-cover h-12 w-12 rounded-full"
-                                alt=""
-                        />
-                    </div>
-                    <div class="w-full">
-                        <div class="text-lg font-semibold">MERN Stack</div>
-                        <span class="text-gray-500">Lusi : Thanks Everyone</span>
-                    </div>
-                </div>
-                <div class="flex flex-row py-4 px-2 items-center border-b-2">
-                    <div class="w-1/4">
-                        <img
-                                src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
-                                class="object-cover h-12 w-12 rounded-full"
-                                alt=""
-                        />
-                    </div>
-                    <div class="w-full">
-                        <div class="text-lg font-semibold">Javascript Indonesia</div>
-                        <span class="text-gray-500">Evan : some one can fix this</span>
-                    </div>
-                </div>
-                <div class="flex flex-row py-4 px-2 items-center border-b-2">
-                    <div class="w-1/4">
-                        <img
-                                src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
-                                class="object-cover h-12 w-12 rounded-full"
-                                alt=""
-                        />
-                    </div>
-                    <div class="w-full">
-                        <div class="text-lg font-semibold">Javascript Indonesia</div>
-                        <span class="text-gray-500">Evan : some one can fix this</span>
-                    </div>
-                </div>
-
-                <div class="flex flex-row py-4 px-2 items-center border-b-2">
-                    <div class="w-1/4">
-                        <img
-                                src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
-                                class="object-cover h-12 w-12 rounded-full"
-                                alt=""
-                        />
-                    </div>
-                    <div class="w-full">
-                        <div class="text-lg font-semibold">Javascript Indonesia</div>
-                        <span class="text-gray-500">Evan : some one can fix this</span>
+                        <div class="text-lg text-white font-semibold">Vlad Test</div>
                     </div>
                 </div>
                 <!-- end user list -->
             </div>
-            <!-- end chat list -->
+
             <!-- message -->
             <div class="w-full px-5 flex flex-col justify-between">
                 <div class="flex flex-col mt-5">
                     <div class="flex justify-end mb-4">
                         <div
-                                class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"
+                                class="mr-2 py-3 px-4 bg-blue-500 rounded-full text-white"
                         >
                             Welcome to group everyone !
                         </div>
@@ -115,7 +42,7 @@
                                 alt=""
                         />
                         <div
-                                class="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white"
+                                class="ml-2 py-3 px-4 bg-gray-600 rounded-full text-white"
                         >
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
                             at praesentium, aut ullam delectus odio error sit rem. Architecto
@@ -123,42 +50,9 @@
                             consequatur quas?
                         </div>
                     </div>
-                    <div class="flex justify-end mb-4">
-                        <div>
-                            <div
-                                    class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"
-                            >
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                Magnam, repudiandae.
-                            </div>
 
-                            <div
-                                    class="mt-4 mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"
-                            >
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Debitis, reiciendis!
-                            </div>
-                        </div>
-                        <img
-                                src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
-                                class="object-cover h-8 w-8 rounded-full"
-                                alt=""
-                        />
-                    </div>
-                    <div class="flex justify-start mb-4">
-                        <img
-                                src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
-                                class="object-cover h-8 w-8 rounded-full"
-                                alt=""
-                        />
-                        <div
-                                class="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white"
-                        >
-                            happy holiday guys!
-                        </div>
-                    </div>
                 </div>
-                <div class="py-5">
+                <div class="py-5 align-text-bottom">
                     <input
                             class="w-full bg-gray-300 py-5 px-3 rounded-xl"
                             type="text"
