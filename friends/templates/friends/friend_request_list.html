@@ -1,0 +1,110 @@
+{% extends 'user/base.html' %}
+{% load static %}
+{% block body %}
+    <div class="bg-gray-300 h-screen">
+        <div class="container mx-auto">
+            <h1 class="text-3xl text-center mb-5 pt-5">Вихідні запити</h1>
+            <div class="py-20">
+                <div class="flex items-center px-5 py-2">
+                    <span class="w-1/2">
+           <span class="text-xs uppercase text-gray-600 font-bold">Користувач</span>
+        </span>
+                    <span class="w-1/4">
+          <span class="text-xs uppercase text-gray-600 font-bold">Імейл користувача</span>
+        </span>
+                </div>
+                {% for friend_request in friend_requests_from_user %}
+                    <div class="hover:bg-gray-200 cursor-pointer bg-white shadow flex p-5 items-center mb-5 rounded-lg">
+                        <div class="w-1/2">
+                            <div class="flex items-center">
+                                <img src="{{ friend_request.to_user.avatar.url }}" class="rounded-full w-14">
+                                <div class="ml-4">
+                                    <a href="{% url 'user:profile' friend_request.to_user.email %}">
+                                        <span class="capitalize block text-gray-800">{{ friend_request.to_user.name }}</span>
+                                        <span class="text-sm block text-gray-600">{{ friend_request.to_user.last_name }}</span>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="flex justify-between align-bottom w-1/2">
+                            <div class="w-1/4 mt-2">
+                                <span class="capitalize text-gray-600 text-sm">{{ friend_request.to_user.email }}</span>
+                            </div>
+                            <div class="flex justify-items-end" style="gap: 10px;">
+                                <a class="btn-cancel" id="{{ friend_request.id }}">
+                                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                        Відмінити запит
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <h1 class="text-3xl text-center mb-5">Вхідні запити</h1>
+                <div class="py-20">
+                    <div class="flex items-center px-5 py-2">
+                    <span class="w-1/2">
+           <span class="text-xs uppercase text-gray-600 font-bold">Користувач</span>
+        </span>
+                        <span class="w-1/4">
+          <span class="text-xs uppercase text-gray-600 font-bold">Імейл користувача</span>
+        </span>
+                    </div>
+                    {% for friend_request in friend_requests_to_user %}
+                        <div class="hover:bg-gray-200 cursor-pointer bg-white shadow flex p-5 items-center mb-5 rounded-lg">
+                            <div class="w-1/2">
+                                <div class="flex items-center">
+                                    <img src="{{ friend_request.from_user.avatar.url }}" class="rounded-full w-14">
+                                    <div class="ml-4">
+                                        <a href="{% url 'user:profile' friend_request.from_user.email %}">
+                                            <span class="capitalize block text-gray-800">{{ friend_request.from_user.name }}</span>
+                                            <span class="text-sm block text-gray-600">{{ friend_request.from_user.last_name }}</span>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="flex justify-between align-bottom w-1/2">
+                                <div class="w-1/4 mt-2">
+                                    <span class="capitalize text-gray-600 text-sm">{{ friend_request.from_user.email }}</span>
+                                </div>
+                                <div class="flex justify-items-end" style="gap: 10px;">
+                                    <a href="{% url 'user:profile' user.email %}">
+                                        <button class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                            Надіслати повідомлення
+                                        </button>
+                                    </a>
+                                    <a href="{% url 'user:profile' user.email %}">
+                                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                            Видалити з друзів
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    window.CSFR_TOKEN = "{{ csrf_token }}";
+        $(document).ready(function () {
+            $('.btn-cancel').click(function () {
+                let request_id = $(this).attr('id');
+                $.ajax({
+                    url: "{% url 'friends:cancel_friend_request' %}",
+                    type: "POST",
+                    data: {
+                        'friend_request_id': request_id,
+                        'csrfmiddlewaretoken': window.CSFR_TOKEN
+                    },
+                    success: function (data) {
+                        location.reload();
+                    }
+                })
+            })
+        })
+    </script>
+{% endblock %}

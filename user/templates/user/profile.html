@@ -23,6 +23,11 @@
                                 style="height: fit-content">Переглянути мої пости
                         </button>
                     </a>
+                    <a href="{% url 'friends:friend_requests' %}">
+                        <button class="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
+                                style="height: fit-content">Мої запити в друзі
+                        </button>
+                    </a>
                 {% else %}
                     {% if is_requested %}
                         <button class="text-white py-2 px-4 uppercase rounded bg-blue-600 hover:bg-blue-700 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
