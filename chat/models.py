@@ -1,11 +1,11 @@
 from django.db import models
 from django.conf import settings
-
+from user.models import User
 
 class MessageManager(models.Manager):
-    def get_messages(user):
+    def get_messages(self,user):
         users = []
-        messages = Message.objects.filter(user=user).values('recepient').annotate(last=Max('created_at')).order_by('-last')
+        messages = Message.objects.filter(user=user).values('recepient').annotate(last=models.Max('created_at')).order_by('-last')
         for message in messages:
             users.append({
                 'user': User.objects.get(pk=message['recepient']),
