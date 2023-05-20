@@ -24,10 +24,23 @@
                         </button>
                     </a>
                 {% else %}
-                    <button class="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
-                            style="height: fit-content"
-                    >Додати у друзі
-                    </button>
+                    {% if is_requested %}
+                        <button class="text-white py-2 px-4 uppercase rounded bg-blue-600 hover:bg-blue-700 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
+                                style="height: fit-content;" disabled>Запит вже надіслано
+                        </button>
+                    {% elif request.user in user.friends.all %}
+                        <button class="text-white py-2 px-4 uppercase rounded bg-green-600 hover:bg-green-700 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
+                                style="height: fit-content" disabled
+                        >Користувач вже у друзях
+                        </button>
+                    {% else %}
+                        <a id="{{ user.email }}" class="btn-send">
+                            <button class="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
+                                    style="height: fit-content"
+                            >Додати у друзі
+                            </button>
+                        </a>
+                    {% endif %}
                     <button class="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
                             style="height: fit-content"
                     >Написати
@@ -186,6 +199,23 @@
                     url: '{% url "posts:like" %}',
                     data: {
                         'id': post_id,
+                        'csrfmiddlewaretoken': window.CSRF_TOKEN
+                    },
+                    success: function () {
+                        location.reload();
+                    }
+                })
+            })
+        });
+
+        $(document).ready(function () {
+            $('.btn-send').click(function () {
+                let user_email = $(this).attr('id');
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "friends:send_friend_request" %}',
+                    data: {
+                        'target_user_email': user_email,
                         'csrfmiddlewaretoken': window.CSRF_TOKEN
                     },
                     success: function () {

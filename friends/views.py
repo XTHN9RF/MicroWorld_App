@@ -5,13 +5,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 
 from .models import FriendRequest
-
+from user.models import User
 
 class SendFriendRequest(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         from_user = request.user
         target_user_email = request.POST.get("target_user_email")
-        to_user = User.objects.get(username=target_user_email)
+        to_user = User.objects.get(email=target_user_email)
         friend_request, created = FriendRequest.objects.get_or_create(
             from_user=from_user,
             to_user=to_user

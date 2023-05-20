@@ -16,6 +16,7 @@ from posts.forms import CommentForm
 
 from .models import User
 from posts.models import Post
+from friends.models import FriendRequest
 
 
 class LoginView(View):
@@ -108,11 +109,12 @@ class UserProfileView(LoginRequiredMixin, View):
         """Handles GET requests"""
         user = User.objects.get(email=pk)
         comment_form = CommentForm()
+        is_requested = FriendRequest.objects.filter(to_user=user).filter(from_user=request.user).exists()
         if Post.objects.filter(user=user).exists():
             post = Post.objects.filter(user=user).latest('date_posted')
-            context = {'user': user, 'post': post, 'comment_form': comment_form, }
+            context = {'user': user, 'post': post, 'comment_form': comment_form, 'is_requested': is_requested, }
         else:
-            context = {'user': user, 'comment_form': comment_form, }
+            context = {'user': user, 'comment_form': comment_form, 'is_requested': is_requested, }
         return render(request, 'user/profile.html', context)
 
     def post(self, request, pk):
@@ -132,23 +134,28 @@ class PasswordResetView(auth_views.PasswordResetView):
     template_name = 'user/password_reset.html'
     success_url = reverse_lazy('user:password_reset_done')
 
+
 class PasswordResetDoneView(auth_views.PasswordResetDoneView):
     """Handles logic of password reset done view"""
     template_name = 'user/password_reset_done.html'
+
 
 class PasswordResetConfirmView(auth_views.PasswordResetConfirmView):
     """Handles logic of password reset confirm view"""
     template_name = 'user/password_reset_confirm.html'
     success_url = reverse_lazy('user:password_reset_complete')
 
+
 class PasswordResetCompleteView(auth_views.PasswordResetCompleteView):
     """Handles logic of password reset complete view"""
     template_name = 'user/password_reset_complete.html'
+
 
 class PasswordChangeView(auth_views.PasswordChangeView):
     """Handles logic of password change view"""
     template_name = 'user/password_change.html'
     success_url = reverse_lazy('user:password_change_done')
+
 
 class PasswordChangeDoneView(auth_views.PasswordChangeDoneView):
     """Handles logic of password change done view"""
